@@ -10,3 +10,13 @@ spring:
       hibernate:
         ddl-auto: update
       show-sql: true
+
+  http:
+    multipart:
+      max-file-size: 10MB #设置文件上传时单个文件的大小限制
+      max-request-size: 100MB #设置文件上传时总文件大小限制
+
+upload:
+  path: Files #文件上传路径
+
+

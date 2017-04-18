@@ -1,9 +1,10 @@
 package com.deity.restful.entity;
 
 /**
+ * 响应内容
  * Created by Deity on 2017/4/17.
  */
-public class Data {
+public class ResponseEntity {
 
     public enum ResultCode {
 
@@ -18,6 +19,13 @@ public class Data {
         public int getCode() {
             return code;
         }
+    }
+
+    public ResponseEntity(){}
+
+    public ResponseEntity(ResultCode resultCode){
+        status = resultCode.getCode();
+        message = resultCode.name();
     }
 
     private String message;
@@ -50,10 +58,10 @@ public class Data {
 
     @Override
     public String toString() {
-        return "Data{" +
+        return "ResponseEntity{" +
                 "message='" + message + '\'' +
                 ", status=" + status +
-                ", Data=" + Data +
+                ", ResponseEntity=" + Data +
                 '}';
     }
 }
