@@ -58,10 +58,9 @@ public class DynamicController {
         return dynamicRepository.findOne(id);
     }
 
-
     @RequestMapping("/fileUpload")
     @ResponseBody
-    public ResponseEntity handleFileUpload(@RequestParam("file")MultipartFile multipartFile, @RequestParam("description") String description, @RequestParam("fileUrl") String fileUrl){
+    public ResponseEntity handleFileUpload(@RequestParam("file")MultipartFile multipartFile, @RequestParam("description") String description){
         /**获取配置的本地路径* */
         String rootPathDir = env.getProperty("upload.path");
         /**构建按照日期存储的本地路径**/
@@ -86,7 +85,7 @@ public class DynamicController {
             /** 打印出上传到服务器的文件的本地路径和网络路径* */
             System.out.println("****************" + filePath + "**************");
             System.out.println("/Files/" + dateFormat.format(new Date()) + "/" + fileName);
-            addDynamic(description,fileUrl);//添加到数据库
+            addDynamic(description,filePath);//添加到数据库
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity(ResponseEntity.ResultCode.FAIL);

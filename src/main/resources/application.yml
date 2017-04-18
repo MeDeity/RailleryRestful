@@ -19,4 +19,7 @@ spring:
 upload:
   path: Files #文件上传路径
 
+server:
+  session-timeout: 10 # session最大超时时间(分钟)，默认为30s
+
 
