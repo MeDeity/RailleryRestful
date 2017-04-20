@@ -5,13 +5,14 @@ import com.deity.restful.entity.ResponseEntity;
 import com.deity.restful.entity.Dynamic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.List;
 import java.util.UUID;
 
 /**
@@ -19,6 +20,7 @@ import java.util.UUID;
  */
 @RestController
 @SuppressWarnings("unused")
+@RequestMapping("/dynamic")
 public class DynamicController {
     @Autowired
     private DynamicRepository dynamicRepository;
@@ -26,39 +28,55 @@ public class DynamicController {
     private Environment env;
 
     /**查询所有动态数据*/
-    @GetMapping(value = "/dynamic")
-    private List<Dynamic> dynamicList(){
-        return dynamicRepository.findAll();
+    @GetMapping(value = "/queryAll")
+    private ResponseEntity dynamicList(){
+        ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
+        responseEntity.setData(dynamicRepository.findAll());
+        return responseEntity;
     }
 
     /**增加动态信息*/
-    @PostMapping(value = "/dynamic")
-    private Dynamic addDynamic(@RequestParam("description") String description,@RequestParam("fileUrl") String fileUrl){
+    @PostMapping(value = "/add")
+    private ResponseEntity addDynamic(@RequestParam("description") String description, @RequestParam("fileUrl") String fileUrl){
+        ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
         Dynamic dynamic = new Dynamic();
         dynamic.setDescription(description);
         dynamic.setFileUrl(fileUrl);
-        return dynamicRepository.save(dynamic);
+        responseEntity.setData(dynamicRepository.save(dynamic));
+        return responseEntity;
     }
-    @DeleteMapping(value = "/dynamic/{id}")
+    @DeleteMapping(value = "/del/{id}")
     private void delDynamic(@PathVariable("id") Integer id){
         dynamicRepository.delete(id);
     }
 
-    @PutMapping(value = "/dynamic/{id}")
-    private Dynamic updateDynamic(@PathVariable("id") Integer id, @RequestParam("description") String description, @RequestParam("fileUrl") String fileUrl){
+    @PutMapping(value = "/update/{id}")
+    private ResponseEntity updateDynamic(@PathVariable("id") Integer id, @RequestParam("description") String description, @RequestParam("fileUrl") String fileUrl){
+        ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
         Dynamic dynamic = new Dynamic();
         dynamic.setId(id);
         dynamic.setDescription(description);
         dynamic.setFileUrl(fileUrl);
-        return dynamicRepository.save(dynamic);
+        responseEntity.setData(dynamic);
+        return responseEntity;
     }
 
-    @GetMapping(value = "/dynamic/{id}")
-    private Dynamic queryDynamic(@PathVariable("id") Integer id){
-        return dynamicRepository.findOne(id);
+    @GetMapping(value = "/query/{id}")
+    private ResponseEntity queryDynamic(@PathVariable("id") Integer id){
+        ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
+        responseEntity.setData(dynamicRepository.findOne(id));
+        return responseEntity;
     }
 
-    @RequestMapping("/fileUpload")
+    @GetMapping(value = "/queryPaging/{page}")
+    private ResponseEntity queryDynamicByPageable(@PathVariable("page") Integer page, @RequestParam(value = "size", defaultValue = "20") Integer size){
+        ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
+        Pageable pageable = new PageRequest(page,size);
+        responseEntity.setData(dynamicRepository.findAll(pageable));
+        return responseEntity;
+    }
+
+    @RequestMapping("/addFiles")
     @ResponseBody
     public ResponseEntity handleFileUpload(@RequestParam("file")MultipartFile multipartFile, @RequestParam("description") String description){
         /**获取配置的本地路径* */
