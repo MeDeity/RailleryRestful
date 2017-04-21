@@ -68,6 +68,12 @@ public class DynamicController {
         return responseEntity;
     }
 
+    /**
+     * 分页查询
+     * @param page 从0开始计数
+     * @param size 每页的条数
+     * @return
+     */
     @GetMapping(value = "/queryPaging/{page}")
     private ResponseEntity queryDynamicByPageable(@PathVariable("page") Integer page, @RequestParam(value = "size", defaultValue = "20") Integer size){
         ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
