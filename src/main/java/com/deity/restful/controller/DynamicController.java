@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -37,11 +38,13 @@ public class DynamicController {
 
     /**增加动态信息*/
     @PostMapping(value = "/add")
-    private ResponseEntity addDynamic(@RequestParam("description") String description, @RequestParam("fileUrl") String fileUrl){
+    private ResponseEntity addDynamic(@RequestParam("description") String description, @RequestParam("fileUrl") String fileUrl,@RequestParam("width")float width,@RequestParam("height") float height){
         ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
         Dynamic dynamic = new Dynamic();
         dynamic.setDescription(description);
         dynamic.setFileUrl(fileUrl);
+        dynamic.setWidth(width);
+        dynamic.setHeight(height);
         responseEntity.setData(dynamicRepository.save(dynamic));
         return responseEntity;
     }
@@ -106,10 +109,12 @@ public class DynamicController {
         try (FileOutputStream fileOutputStream = new FileOutputStream(file);
              BufferedOutputStream stream = new BufferedOutputStream(fileOutputStream)) {
             stream.write(multipartFile.getBytes());
+            BufferedImage bi = javax.imageio.ImageIO.read(file);
+//            System.err.println("width:"+bi.getWidth()+" height:"+bi.getHeight());
             /** 打印出上传到服务器的文件的本地路径和网络路径* */
             System.out.println("****************" + filePath + "**************");
             System.out.println("/Files/" + dateFormat.format(new Date()) + "/" + fileName);
-            addDynamic(description,filePath);//添加到数据库
+            addDynamic(description,filePath,bi.getWidth(),bi.getHeight());//添加到数据库
         } catch (Exception e) {
             System.out.println(e.getMessage());
             return new ResponseEntity(ResponseEntity.ResultCode.FAIL);

@@ -17,6 +17,11 @@ public class Dynamic {
     private String description;
     /**附件地址*/
     private String fileUrl;
+    /**附件的宽*/
+    private float width;
+    /**附件的高*/
+    private float height;
+
 
     public Integer getId() {
         return id;
@@ -40,5 +45,21 @@ public class Dynamic {
 
     public void setFileUrl(String fileUrl) {
         this.fileUrl = fileUrl;
+    }
+
+    public float getWidth() {
+        return width;
+    }
+
+    public void setWidth(float width) {
+        this.width = width;
+    }
+
+    public float getHeight() {
+        return height;
+    }
+
+    public void setHeight(float height) {
+        this.height = height;
     }
 }
