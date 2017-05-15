@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -80,7 +81,7 @@ public class DynamicController {
     @GetMapping(value = "/queryPaging/{page}")
     private ResponseEntity queryDynamicByPageable(@PathVariable("page") Integer page, @RequestParam(value = "size", defaultValue = "20") Integer size){
         ResponseEntity responseEntity = new ResponseEntity(ResponseEntity.ResultCode.SUCCESS);
-        Pageable pageable = new PageRequest(page,size);
+        Pageable pageable = new PageRequest(page,size, Sort.Direction.DESC,"id");
         responseEntity.setData(dynamicRepository.findAll(pageable));
         return responseEntity;
     }
