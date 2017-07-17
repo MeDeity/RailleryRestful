@@ -22,6 +22,11 @@ public class UploadController {
         return new ModelAndView("uploadFile");
     }
 
+    @RequestMapping("/test")
+    public String test() {
+        return "uploadFile";
+    }
+
     @RequestMapping(value = "/pushData", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     @ResponseBody
     public ResponseEntity uploadSuccess() {
