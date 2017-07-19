@@ -7,7 +7,6 @@ import javax.persistence.Table;
  * 自定义user表的名称
  * Created by Deity on 2017/7/17.
  */
-@Table(name = "t_user")
 public class UserEntity {
     /**编号*/
     private int id;

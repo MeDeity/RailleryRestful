@@ -13,10 +13,11 @@ import org.springframework.stereotype.Repository;
  * Created by Deity on 2017/7/17.
  */
 @Mapper
-@Repository //该注释可以有效的防止UserServiceImpl中@AutoWire报错
+@Repository //TODO 该注释可以有效的防止UserServiceImpl中@AutoWire报错
+
 public interface UserDao {
 
-    @Select("Select * from userEntity")
+    @Select("Select * from t_user")
     @Results({
         @Result(property = "id",column = "id'"),
         @Result(property = "userName",column = "userName"),
