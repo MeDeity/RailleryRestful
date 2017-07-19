@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-@SuppressWarnings("SpringJavaAutowiringInspection")
 public class UserServiceImpl implements UserService {
 
     @Autowired
