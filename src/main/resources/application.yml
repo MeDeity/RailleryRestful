@@ -17,7 +17,7 @@ spring:
       max-request-size: 100MB #设置文件上传时总文件大小限制
 
   thymeleaf:
-    prefix: classpath:/templates/
+    prefix: classpath:/templates/  #指定了静态文件的地址
 
 upload:
   path: Files #文件上传路径

@@ -1,6 +1,7 @@
 package com.deity.restful.controller;
 
 import com.deity.restful.entity.ResponseEntity;
+import com.deity.restful.exception.ApiException;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,8 +24,13 @@ public class UploadController {
     }
 
     @RequestMapping("/test")
-    public String test() {
-        return "uploadFile";
+    public ModelAndView test() {
+        return new ModelAndView("error");
+    }
+
+    @RequestMapping("/json")
+    public String json() throws ApiException {
+        throw new ApiException("发生错误2");
     }
 
     @RequestMapping(value = "/pushData", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
